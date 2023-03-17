@@ -13,7 +13,7 @@ datasource db {
 model Player {
   id     Int    @id @default(autoincrement())
   name   String
-  Room   Room?  @relation(fields: [roomId], references: [id])
+  room   Room?  @relation(fields: [roomId], references: [id])
   roomId Int?
 }
 
@@ -21,7 +21,7 @@ model Game {
   id       Int    @id @default(autoincrement())
   board    String
   turnId   Int
-  winnerId Int
+  winnerId Int?
   room     Room   @relation(fields: [roomId], references: [id])
   roomId   Int
 }
@@ -29,6 +29,6 @@ model Game {
 model Room {
   id      Int      @id @default(autoincrement())
   code    String   @unique
-  Game    Game[]
+  games    Game[]
   players Player[]
 }

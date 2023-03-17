@@ -11,7 +11,7 @@ CREATE TABLE "Game" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "board" TEXT NOT NULL,
     "turnId" INTEGER NOT NULL,
-    "winnerId" INTEGER NOT NULL,
+    "winnerId" INTEGER,
     "roomId" INTEGER NOT NULL,
     CONSTRAINT "Game_roomId_fkey" FOREIGN KEY ("roomId") REFERENCES "Room" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
