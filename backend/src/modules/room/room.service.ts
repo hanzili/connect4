@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { Room, Prisma } from '@prisma/client';
+import { Room, Prisma, Player, Game } from '@prisma/client';
 import { CreateRoomDTO } from 'src/shared/dto/room/createRoom';
 
 @Injectable()
@@ -19,14 +19,16 @@ export class RoomService {
       take,
       cursor,
       where,
+      include: { players: true },
     });
   }
 
   async room(
     RoomWhereUniqueInput: Prisma.RoomWhereUniqueInput,
-  ): Promise<Room | null> {
+  ): Promise<(Room & { games: Game[]; players: Player[] }) | null> {
     return this.prisma.room.findUnique({
       where: RoomWhereUniqueInput,
+      include: { players: true, games: true },
     });
   }
 
@@ -77,6 +79,6 @@ export class RoomService {
     });
     const player1 = room.players[0];
     const player2 = room.players[1];
-    return [player1,player2];
+    return [player1, player2];
   }
 }

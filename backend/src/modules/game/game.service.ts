@@ -32,6 +32,10 @@ export class GameService {
   }
 
   async createGame(data: { roomId: number }): Promise<Game> {
+    const room = await this.room.room({ id: data.roomId });
+    console.log(room);
+    if (room.games.length !== 0 && !room.games[room.games.length - 1].winnerId)
+      throw new HttpException('Current game has not end', HttpStatus.FORBIDDEN);
     const players = await this.room.getPlayers({ id: data.roomId });
     if (players.length < 2)
       throw new HttpException('Not enough players', HttpStatus.FORBIDDEN);
